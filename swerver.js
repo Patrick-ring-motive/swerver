@@ -218,6 +218,9 @@ async function Swerver() {
         return (await (await wordCache.match('https://' + key))?.text?.());
     }
 
+    function ord(x){
+        return String.fromCharCode((Number(x)||0) + 97);
+    }
     const routes = [
         [/check$/, async (request) => {
             const text = await request.text();
@@ -243,7 +246,7 @@ async function Swerver() {
             let words = firstWords ?? [];
             words = words.filter(x => !/[0-9]/.test(x));
             if (!words.length) {
-                words = firstWords.map(x => x.replace(/[0-9]/g, String.fromCharCode(x + 97)));
+                words = firstWords.map(x => x.replace(/[0-9]/g, ord(x)));
             }
             if (!words.length) {
                 if (/k/i.test(text)) {
@@ -251,7 +254,7 @@ async function Swerver() {
                     words = firstWords ?? [];
                     words = words.filter(x => !/[0-9]/.test(x));
                     if (!words.length) {
-                        words = firstWords.map(x => x.replace(/[0-9]/g, String.fromCharCode(x + 97))).filter(x => x.trim());
+                        words = firstWords.map(x => x.replace(/[0-9]/g, ord(x))).filter(x => x.trim());
                     }
                 }
             }
@@ -261,7 +264,7 @@ async function Swerver() {
                     words = firstWords ?? [];
                     words = words.filter(x => !/[0-9]/.test(x));
                     if (!words.length) {
-                        words = firstWords.map(x => x.replace(/[0-9]/g, x => String.fromCharCode(x + 97))).filter(x => x.trim());
+                        words = firstWords.map(x => x.replace(/[0-9]/g, x => ord(x))).filter(x => x.trim());
                     }
                 }
             }
