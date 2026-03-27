@@ -4,13 +4,19 @@ function isNullish(value) {
 
 class WorkerResponse extends Response {
   constructor(body, options = {}) {
-    const { headers, ...rest } = options;
+    const {
+      headers,
+      ...rest
+    } = options;
 
     // Convert headers to a Map (using headers.entries() if available, otherwise Object.entries)
     const headersMap = new Map(headers?.entries?.() ?? Object.entries(headers ?? {}));
 
     // Call the parent Response constructor, omitting headers for now
-    super(body, { ...rest, headers: undefined });
+    super(body, {
+      ...rest,
+      headers: undefined
+    });
 
     // Override the headers property with the Map
     Object.defineProperty(this, 'headers', {
@@ -31,14 +37,20 @@ class WorkerResponse extends Response {
 
 class WorkerRequest extends Request {
   constructor(input, options = {}) {
-    if(input instanceof Request){
+    if (input instanceof Request) {
       options = Object.assign(input, options);
     }
-    const { headers, ...rest } = options;
+    const {
+      headers,
+      ...rest
+    } = options;
 
     const headersMap = new Map(headers?.entries?.() ?? Object.entries(headers ?? {}));
 
-    super(input, { ...rest, headers: undefined });
+    super(input, {
+      ...rest,
+      headers: undefined
+    });
 
     Object.defineProperty(this, 'headers', {
       value: headersMap,
